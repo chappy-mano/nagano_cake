@@ -10,6 +10,27 @@
   </head>
 
   <body>
+    <header>
+      <div class="container">
+        <nav class="nav navbar-nav navbar-left">
+          <h3>NAGANO CAKE</h3>
+        </nav>
+        <nav>
+          <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to "About", "#" %></li>
+            <li><%= link_to "商品一覧", "#" %></li>
+            <li><%= link_to "新規登録", "#" %></li>
+            <li><%= link_to "ログイン", "#" %></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
     <%= yield %>
+    </main>
+
+    <footer>
+    </footer>
   </body>
 </html>
