@@ -1,11 +1,12 @@
 <div class="container">
- <h2>ジャンル編集</h2>
+ <h3>ジャンル編集</h3>
 
- <div class = "form">
-  <%= form_with model: @genre, url: admin_genres_path, local:true do |f| %>
+ <div class = "edit">
+  <%= form_with model: @genre, url: admin_genre_path, local:true do |f| %>
   <span>ジャンル名</span>
-  <span><%= f.text_field :name, placeholder:"～～～" %></span>
+  <span><%= f.text_field :name %></span>
   <span><%= f.submit "変更を保存", class:"btn btn-success" %></span>
   <% end %>
  </div>
+ 
 </div>

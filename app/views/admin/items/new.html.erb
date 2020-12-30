@@ -1,0 +1,33 @@
+<div class = "container">
+  <h3>商品新規登録</h3>
+
+  <div>
+    <%= form_with model: @item, url: admin_items_path, local:true do |f| %>
+    <p>
+      <span>商品画像</span>
+      <span><%= f.attachment_field :image %></span>
+    </p>
+    <p>
+      <span>商品名</span>
+      <span><%= f.text_field :name, placeholder:"商品名" %></span>
+    </p>
+    <p>
+      <span>商品説明</span>
+      <span><%= f.text_area :introduction, placeholder:"ここに説明文を記述します" %></span>
+    </p>
+    <p>
+      <span>ジャンル</span>
+      <span><%= f.collection_select(:name, @genres, :id, :name) %></span>
+    </p>
+    <p>
+      <span>税抜価格</span>
+      <span><%= f.text_field :price, placeholder:"1000" %>円</span>
+    </p>
+    <p>
+      <span>販売ステータス</span>
+      <span></span>
+    </p>
+    <p><%= f.submit "新規登録", class:"btn btn-success" %></p>
+    <% end %>
+  </div>
+</div>
