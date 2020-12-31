@@ -25,7 +25,14 @@
     </p>
     <p>
       <span>販売ステータス</span>
-      <span></span>
+      <span>
+        <%= f.radio_button :is_active, :on_sale %>
+        <%= f.label :is_active, "販売中", {value: :on_sale, style: "display: inline-block;"} %>
+      </span>
+      <span>
+        <%= f.radio_button :is_active, :sold_out %>
+        <%= f.label :is_active, "売切れ", {value: :sold_out, style: "display: inline-block;"} %>
+      </span>
     </p>
     <p><%= f.submit "新規登録", class:"btn btn-success" %></p>
     <% end %>
