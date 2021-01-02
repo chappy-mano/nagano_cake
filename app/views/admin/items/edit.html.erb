@@ -1,3 +1,40 @@
 <div class = "container">
   <h3>商品編集</h3>
+
+  <div>
+    <%= form_with(model: @item, url: admin_item_path(@item.id), local: true) do |f| %>
+    <p>
+      <span>商品画像</span>
+      <span><%= f.attachment_field :image %></span>
+    </p>
+    <p>
+      <span>商品名</span>
+      <span><%= f.text_field :name, placeholder:"商品名" %></span>
+    </p>
+    <p>
+      <span>商品説明</span>
+      <span><%= f.text_area :introduction, placeholder:"ここに説明文を記述します" %></span>
+    </p>
+    <p>
+      <span>ジャンル</span>
+      <span><%= f.collection_select(:genre_, @genres, :id, :name, {prompt:"選択してください"}) %></span>
+    </p>
+    <p>
+      <span>税抜価格</span>
+      <span><%= f.text_field :price, placeholder:"1000" %>円</span>
+    </p>
+    <p>
+      <span>販売ステータス</span>
+      <span>
+        <%= f.radio_button :is_active, :販売中 %>
+        <%= f.label :is_active, "販売中", {value: :販売中, style: "display: inline-block;"} %>
+      </span>
+      <span>
+        <%= f.radio_button :is_active, :売切れ %>
+        <%= f.label :is_active, "売切れ", {value: :売切れ, style: "display: inline-block;"} %>
+      </span>
+    </p>
+    <p><%= f.submit "変更を保存", class:"btn btn-success" %></p>
+    <% end %>
+  </div>
 </div>
