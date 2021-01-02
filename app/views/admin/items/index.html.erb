@@ -1,25 +1,30 @@
 <div class = "container">
   <h3>商品一覧</h3>
-
+  <i><%= link_to "", new_admin_item_path, class: "fas fa-plus-circle" %></i>
   <table class = "table">
     <thread>
       <tr>
         <td>商品ID</td>
         <td>商品名</td>
         <td>税抜価格</td>
+        <td>ジャンル</td>
         <td>ステータス</td>
       </tr>
     </thread>
     <tbody>
-      ルビーの関数
+      <% @items.each do |item| %>
       <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><%= item.id %></td>
+        <td>
+          <%= link_to admin_item_path(item.id) do %>
+            <%= item.name %>
+          <% end %>
+        </td>
+        <td><%= item.price %></td>
+        <td><%= item.genre_id %></td>
+        <td><%= item.is_active %></td>
       </tr>
-      ルビーのエンド
+      <% end %>
     </tbody>
-
   </table>
 </div>
