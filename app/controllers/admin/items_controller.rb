@@ -1,5 +1,5 @@
 class Admin::ItemsController < ApplicationController
-  before_action :authenticate_admin!
+  before_action :authenticate_admin!, except: :index
 
   def index
     @items = Item.all
@@ -15,7 +15,7 @@ class Admin::ItemsController < ApplicationController
     @item = Item.new(item_params)
     @genres = Genre.all
     @item.save
-    redirect_to admin_item_path()
+    redirect_to admin_items_path
   end
 
   def show
