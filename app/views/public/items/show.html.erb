@@ -1,0 +1,20 @@
+<%= render "public/header" %>
+
+<div class = "container">
+  <div class= "row">
+    <div class="col-lg-4">
+      <%= attachment_image_tag @item, :image, size: "350x250", format: 'jpeg', fallback: "no_image.jpg" %>
+    </div>
+
+    <div class="col-lg-8">
+      <h3><strong><%= @item.name %></strong></h3>
+      <p><%= @item.introduction %></p>
+      <p><%= number_to_currency(@tax_price, unit:"", precision:0) %>円<span style="font-size:12px">(税込)</span></p>
+      <div class="order">
+        個数
+        <%= link_to "カートに入れる","#", class:"btn btn-success" %>
+      </div>
+    </div>
+  </div>
+
+</div>
