@@ -6,4 +6,6 @@ class Customer < ApplicationRecord
 
   enum is_deleted: {退会:true, 有効:false}
 
+  has_many :cart_items, dependent: :destroy
+
 end

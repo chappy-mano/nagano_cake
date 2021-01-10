@@ -9,7 +9,7 @@
         <%= attachment_image_tag item, :image, size:"250x150", format:'jpeg' %>
       <% end %>
       <p><%= item.name %></p>
-      <p><%= number_to_currency(@tax_price, unit:"", precision:0) %>円</p>
+      <p><%= item.price*1.1.floor %>円(税込)</p>
     </div>
     <% end %>
   </div>

@@ -21,7 +21,7 @@
       </div>
       <div class="price">
         <span>税込価格</br>(税抜価格)</span>
-        <span><%= number_to_currency(@tax_price, unit:"", precision:0) %>(<%= number_to_currency(@item.price, unit:"", precision:0) %>)円</span>
+        <span><%= @item.price*1.1*floor %>(<%= @item.price %>)円</span>
       </div>
       <div class="status">
         <span>販売ステータス</span>

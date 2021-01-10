@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  # customer
+  # 以下、customer
   root 'public/homes#top'
   get '/about' => 'public/homes#about'
 
@@ -10,14 +10,22 @@ Rails.application.routes.draw do
   registrations: 'customers/registrations'
   }
 
-  resource :customers
-
+  scope module: :public do
+    resource :customers
+  end
   # resources :items
   get '/items' => 'public/items#index'
   get '/item/:id' => 'public/items#show', as:'item'
 
 
-  # admin
+  get '/cart_items' => 'public/cart_items#index'
+  patch '/cart_items/:id' => 'public/cart_items#update', as: "edit_cart_items"
+  delete '/cart_items/destroy_all' => 'public/cart_items#destroy_all', as: "destroy_all_cart_items"
+  delete '/cart_items/:id' => 'public/cart_items#destroy', as: "destroy_cart_items"
+  post '/cart_items' => 'public/cart_items#create'
+
+
+  # 以下、admin
   devise_for :admins, controllers: {
   sessions:      'admins/sessions',
   passwords:     'admins/passwords',
