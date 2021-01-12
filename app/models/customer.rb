@@ -5,7 +5,11 @@ class Customer < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   enum is_deleted: {退会:true, 有効:false}
-
+  
+  def active_for_authentication?
+    super && (self.is_deleted == false)
+  end  
+  
   has_many :cart_items, dependent: :destroy
   has_many :orders, dependent: :destroy
   

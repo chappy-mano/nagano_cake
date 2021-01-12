@@ -4,10 +4,12 @@ class Public::CustomersController < ApplicationController
     @customer = current_customer
   end
 
-  def edit
+  def confirm
   end
 
-  def update
+  def withdraw
+    current_customer.is_deleted = true
+    sign_out_and_redirect(current_customer)
   end
 
 end

@@ -13,9 +13,11 @@ Rails.application.routes.draw do
   scope module: :public do
     resource :customers
   end
+  get '/customers/confirm' => 'public/customers#confirm', as: "confirm_customers"
+  patch '/customers/withdraw' => 'public/customers#withdraw', as: "withdraw_customers"
 
   get '/items' => 'public/items#index'
-  get '/item/:id' => 'public/items#show', as:'item'
+  get '/item/:id' => 'public/items#show', as: "item"
 
   get '/cart_items' => 'public/cart_items#index'
   patch '/cart_items/:id' => 'public/cart_items#update', as: "edit_cart_items"
