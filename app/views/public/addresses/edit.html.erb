@@ -1,2 +1,22 @@
 <%= render "public/header" %>
-編集
+
+<div class="container">
+  <h3>配送先編集</h3>
+  <div class="form">
+    <%= form_with model:@address, url:address_path(@address.id), local:true do |f| %>
+      <p>
+        郵便番号（ハイフンなし）
+        <%= f.text_field :postal_code %>
+        </p>
+      <p>
+        住所
+        <%= f.text_field :address %>
+        </p>
+      <p>
+        宛名
+        <%= f.text_field :name %>
+        </p>
+      <%= f.submit "変更を保存", class:"btn btn-success" %>
+    <% end %>
+  </div>
+</div>
