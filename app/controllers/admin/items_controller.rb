@@ -34,6 +34,10 @@ class Admin::ItemsController < ApplicationController
     redirect_to admin_item_path(@item.id)
   end
 
+  def destroy
+  end
+
+
   private
   def item_params
     params.require(:item).permit(:name, :image, :introduction, :price, :is_active, :genre_id)

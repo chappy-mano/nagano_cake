@@ -31,6 +31,11 @@ Rails.application.routes.draw do
   post '/orders' => 'public/orders/#create'
   get '/orders/:id' => 'public/orders/#show'
 
+  scope module: :public do
+    resources :addresses, only:[:index, :edit, :create, :update]
+  end
+  delete '/address/:id' => 'public/address#destroy', as: "destroy_address"
+
   # 以下、admin
   devise_for :admins, controllers: {
   sessions:      'admins/sessions',
