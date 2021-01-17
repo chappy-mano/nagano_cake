@@ -2,8 +2,7 @@ class Public::CartItemsController < ApplicationController
   # before_action :authenticate_user!
 
   def index
-    @cart_items = CartItem.all
-    # @subtotal_price = (cart_item.amount)*(cart_item.item.price*1.1).floor
+    @cart_items = CartItem.where(customer_id: current_customer.id)
   end
 
   def create
@@ -20,11 +19,6 @@ class Public::CartItemsController < ApplicationController
   end
 
   def destroy_all
-    # ログインしているユーザーのみのカート商品を消す
-    # cart_items = CartItem.all
-    # cart_items.destroy_all
-    # redirect_to cart_items_path
-
     customer = Customer.find(params[:id])
     cart_items = CartItem.customer.all
     cart_items.destroy_all

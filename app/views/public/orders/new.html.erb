@@ -1,0 +1,40 @@
+<%= render "public/header" %>
+
+<div class="container">
+  <h3>注文情報入力</h3>
+  <%= form_with(model: @order, url:confirm_orders_path, local:true) do |f| %>
+  <div>
+    <h4>支払方法</h4>
+    <%= f.radio_button :payment_method, :クレジットカード %>
+    <%= f.label :payment_method, "クレジットカード", {value: :クレジットカード, style: "display: inline-block"} %></br>
+    <%= f.radio_button :payment_method, :銀行振込 %>
+    <%= f.label :payment_method, "銀行振込", {value: :銀行振込, style: "display: inlie-block"} %>
+  </div>
+
+  <div>
+    <h4>お届け先</h4>
+
+    <p>
+      <%= f.radio_button :address_status, 0 %>
+      <%= f.label :address_status, "ご自身の住所", {value: :ご自身の住所, style: "display: inline-block"} %></br>
+      <%= @customer.postal_code %><%= @customer.address %></br>
+      <%= @customer.last_name %> <%= @customer.first_name %>
+    </p>
+    <p>
+      <%= f.radio_button :address_status, 1 %>
+      <%= f.label :address, "登録済住所から選択", {value: :登録済住所から選択, style: "display: inline-block"} %></br>
+      <%= f.collection_select(:id, @addresses, :id, :address) %>
+    </p>
+    <p>
+      <%= f.radio_button :address_status, 2 %>
+      <%= f.label :address_status, "新しいお届け先", {value: :新しいお届け先, style: "display: inline-block"} %></br>
+      郵便番号(ハイフンなし)<%= f.text_field :postal_code %></br>
+      住所<%= f.text_field :address %></br>
+      宛名<%= f.text_field :name %>
+    </p>
+  </div>
+    <%= f.submit "確認画面へ進む", class:"btn btn-primary" %>
+  <% end %>
+
+
+</div>
