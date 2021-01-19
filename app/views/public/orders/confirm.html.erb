@@ -51,8 +51,8 @@
     <%= f.hidden_field :shipping_cost, :value => @order.shipping_cost %>
     <%= f.hidden_field :total_payment, :value => @order.total_payment %>
     <%= f.hidden_field :payment_method, :value => @order.payment_method %>
-    <%#= f.hidden_field :, :value => @order %>
-    <%= f.submit "確認画面へ進む", class:"btn btn-primary" %>
+    <%= f.hidden_field :status, :value => @order.status %>
+    <%= f.submit "注文を確定する", class:"btn btn-primary" %>
   <% end %>
 
 </div>

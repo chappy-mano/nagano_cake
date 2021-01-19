@@ -1,4 +1,32 @@
 <%= render "public/header" %>
 <div class="container">
   <h3>注文履歴</h3>
+
+  <table class="table">
+    <thread>
+      <tr>
+        <td>注文日</td>
+        <td>配送先</td>
+        <td>注文商品</td>
+        <td>支払金額</td>
+        <td>ステータス</td>
+        <td>注文詳細</td>
+      </tr>
+    </thread>
+    <% @orders.each do |order| %>
+    <tbody>
+      <td><%= order.updated_at %></td>
+      <td>
+        <%= order.postal_code %></br>
+        <%= order.address %></br>
+        <%= order.name %>
+      </td>
+      <td>商品</td>
+      <td><%= order.total_payment.floor.to_s(:delimited) %>円</td>
+      <td><%= order.status %></td>
+      <td><%= link_to "表示する", "#", class:"btn btn-primary" %></td>
+    </tbody>
+    <% end %>
+  </table>
+
 </div>

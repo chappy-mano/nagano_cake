@@ -4,7 +4,6 @@ class Public::OrdersController < ApplicationController
     @order = Order.new
     @customer = current_customer
     @addresses = Address.where(customer_id: current_customer.id)
-    # @address = Address.new
   end
 
   def confirm
@@ -13,23 +12,17 @@ class Public::OrdersController < ApplicationController
     @cart_items = CartItem.where(customer_id: current_customer.id)
     @order.customer_id = current_customer.id
     @order.shipping_cost = 800
-
-    if params[:payment_method] == "0"
-      @order.payment_method = "クレジットカード"
-    elsif params[:payment_method] == "1"
-      @order.payment_method = "銀行振込"
-    end
+    @order.status = "入金待ち"
 
     if params[:order][:address_status] == "0"
       @order.address = current_customer.address
       @order.postal_code = current_customer.postal_code
       @order.name = current_customer.last_name + current_customer.first_name
     elsif params[:order][:address_status] == "1"
-      address = Address.find(params[:order][:address_id])
+      address = Address.find(params[:address][:address_id])
       @order.address = address.address
       @order.postal_code = address.postal_code
       @order.name = address.name
-    # else @address_status == 2
     end
 
     @subtotal = 0
@@ -37,11 +30,25 @@ class Public::OrdersController < ApplicationController
       @subtotal += (cart_item.amount)*(cart_item.item.price*1.1)
     end
     @order.total_payment = @subtotal + @order.shipping_cost
-    # render :new if @order.invalid?
   end
 
   def create
+    address_status = order_params.delete(:address_status) #order内のaddress_statusを削除しつつ、変数を定義
     @order = Order.new(order_params)
+
+    if address_status == "0"
+      @order.address = current_customer.address
+      @order.postal_code = current_customer.postal_code
+      @order.name = current_customer.last_name + current_customer.first_name
+    elsif address_status == "1"
+      address = Address.find(address_status)
+      @order.address = address.address
+      @order.postal_code = address.postal_code
+      @order.name = address.name
+    end
+
+    # @order.customer_id = current_customer.id
+    puts @order.inspect
     @order.save!
     redirect_to thanks_orders_path
   end
@@ -50,6 +57,8 @@ class Public::OrdersController < ApplicationController
   end
 
   def index
+    @orders = Order.where(customer_id: current_customer.id)
+    
   end
 
   def show
@@ -65,9 +74,7 @@ class Public::OrdersController < ApplicationController
       :shipping_cost,
       :total_payment,
       :payment_method,
-      :address_status
-      )
-    params.permit(
+      :status,
       :address_status,
       :address_id
       )
