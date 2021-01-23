@@ -75,10 +75,16 @@ class Public::OrdersController < ApplicationController
 
   def index
     @orders = Order.where(customer_id: current_customer.id)
-    # @order_details = OrderDetail.all
   end
 
   def show
+    @order =Order.find(params[:id])
+    
+    @subtotal = 0
+    @order.order_details.each do |order_detail|
+      @subtotal += (order_detail.amount)*(order_detail.item.price*1.1)
+    end
+    
   end
 
   private
