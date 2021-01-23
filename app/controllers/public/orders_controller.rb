@@ -30,27 +30,44 @@ class Public::OrdersController < ApplicationController
       @subtotal += (cart_item.amount)*(cart_item.item.price*1.1)
     end
     @order.total_payment = @subtotal + @order.shipping_cost
+
+    @order_detail = @order.order_details.new
+    @order_detail.making_status = "着手不可"
   end
+
 
   def create
     address_status = order_params.delete(:address_status) #order内のaddress_statusを削除しつつ、変数を定義
     @order = Order.new(order_params)
 
-    if address_status == "0"
-      @order.address = current_customer.address
-      @order.postal_code = current_customer.postal_code
-      @order.name = current_customer.last_name + current_customer.first_name
-    elsif address_status == "1"
-      address = Address.find(address_status)
-      @order.address = address.address
-      @order.postal_code = address.postal_code
-      @order.name = address.name
-    end
+    # if address_status == "0"
+    #   @order.address = current_customer.address
+    #   @order.postal_code = current_customer.postal_code
+    #   @order.name = current_customer.last_name + current_customer.first_name
+    # elsif address_status == "1"
+    #   address = Address.find(address_status)
+    #   @order.address = address.address
+    #   @order.postal_code = address.postal_code
+    #   @order.name = address.name
+    # end
 
-    # @order.customer_id = current_customer.id
-    puts @order.inspect
-    @order.save!
-    redirect_to thanks_orders_path
+    if @order.save
+      # current_customer.cart_items.each do |cart_item|
+      #   @order_detail = OrderDetail.new
+      #   @order_detail.order_id = @order.id
+      #   @order_detail.item_id = cart_item.item_id
+      #   @order_detail.amount = cart_item.amount
+      #   @order_detail.price = cart_item.item.price
+      #   byebug
+      #   if @order_detail.save
+      #   else
+      #     render :new
+      #   end
+      # end
+      redirect_to thanks_orders_path
+    else
+      render :new
+    end
   end
 
   def thanks
@@ -58,7 +75,7 @@ class Public::OrdersController < ApplicationController
 
   def index
     @orders = Order.where(customer_id: current_customer.id)
-    
+    # @order_details = OrderDetail.all
   end
 
   def show
@@ -76,7 +93,17 @@ class Public::OrdersController < ApplicationController
       :payment_method,
       :status,
       :address_status,
-      :address_id
+      :address_id,
+      order_details_attributes: [
+        :id,
+        :order_id,
+        :item_id,
+        :amount,
+        :price,
+        :making_status
+        ]
       )
   end
+
+
 end

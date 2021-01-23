@@ -43,7 +43,7 @@
   <%= @order.name %>
 
 
-  <%= form_with(model: @order, url:orders_path, method: :post, local:true) do |f| %>
+  <%= form_with model:@order, url:orders_path, method: :post, local:true do |f| %>
     <%= f.hidden_field :customer_id, :value => @order.customer_id %>
     <%= f.hidden_field :postal_code, :value => @order.postal_code %>
     <%= f.hidden_field :address, :value => @order.address %>
@@ -52,7 +52,15 @@
     <%= f.hidden_field :total_payment, :value => @order.total_payment %>
     <%= f.hidden_field :payment_method, :value => @order.payment_method %>
     <%= f.hidden_field :status, :value => @order.status %>
+    <% @cart_items.each do |cart_item| %>
+      <%= f.fields_for :order_details do |b| %>
+        <%= b.hidden_field :order_id, :value => @order.id %>
+        <%= b.hidden_field :item_id, :value => cart_item.item_id %>
+        <%= b.hidden_field :amount, :value => cart_item.amount %>
+        <%= b.hidden_field :price, :value => cart_item.item.price %>
+        <%= b.hidden_field :making_status, :value => @order_detail.making_status %>
+      <% end %>
+    <% end %>
     <%= f.submit "注文を確定する", class:"btn btn-primary" %>
   <% end %>
-
 </div>

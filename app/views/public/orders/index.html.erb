@@ -21,10 +21,16 @@
         <%= order.address %></br>
         <%= order.name %>
       </td>
-      <td>商品</td>
+      <td>
+        <% order.order_details.each do |order_detail| %>
+          <ul style="list-style:none">
+            <li><%= order_detail.item.name %></li>
+          </ul>
+        <% end %>
+      </td>
       <td><%= order.total_payment.floor.to_s(:delimited) %>円</td>
       <td><%= order.status %></td>
-      <td><%= link_to "表示する", "#", class:"btn btn-primary" %></td>
+      <td><%= link_to "表示する", orders_path, class:"btn btn-primary" %></td>
     </tbody>
     <% end %>
   </table>

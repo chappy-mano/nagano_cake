@@ -25,12 +25,13 @@ Rails.application.routes.draw do
   delete '/cart_items/:id' => 'public/cart_items#destroy', as: "destroy_cart_items"
   post '/cart_items' => 'public/cart_items#create'
 
-  get '/orders/new' => 'public/orders#new', as: "new_orders"
   post '/orders/confirm' => 'public/orders#confirm', as: "confirm_orders"
   get '/orders/thanks' => 'public/orders#thanks', as: "thanks_orders"
-  post '/orders' => 'public/orders#create'
-  get '/orders' => 'public/orders#index'
-  get '/orders/:id' => 'public/orders#show'
+  scope module: :public do
+    resources :orders, only:[:new, :create, :index, :show] do
+      resources :order_details, only:[:create, :destroy]
+    end
+  end
 
   scope module: :public do
     resources :addresses, only:[:index, :edit, :create, :update]
