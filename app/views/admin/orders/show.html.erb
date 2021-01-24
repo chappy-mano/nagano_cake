@@ -1,0 +1,42 @@
+<%= render "admin/header" %>
+<div class="container">
+  <h3>注文詳細</h3>
+
+  <div>
+    <p>購入者　　　　　<%= @order.customer.last_name %><%= @order.customer.first_name %></p>
+    <p>注文日　　　　　<%= @order.updated_at.strftime("%Y-%m-%d") %></p>
+    <p>配送先　　　　　〒<%= @order.postal_code %><%= @order.address %>　<%= @order.name %></p>
+    <p>支払方法　　　　<%= @order.payment_method %></p>
+    <p>注文ステータス　<%= @order.status %>
+       <%= link_to "更新", admin_order_path, method: :patch, class:"btn btn-success" %></p>
+  </div>
+
+
+  <table class ="table">
+    <thread>
+      <tr>
+        <td>商品名</td>
+        <td>単価（税込み）</td>
+        <td>個量</td>
+        <td>小計</td>
+        <td>製作ステータス</td>
+        <td></td>
+      </tr>
+    </thread>
+    <% @order.order_details.each do |order_detail| %>
+    <tbody>
+      <td><%= order_detail.item.name %></td>
+      <td><%= (order_detail.item.price*1.1).floor.to_s(:delimited) %></td>
+      <td><%= order_detail.amount %></td>
+      <td><%= ((order_detail.item.price*1.1)*(order_detail.amount)).floor.to_s(:delimited) %></td>
+      <td><%= order_detail.making_status %></td>
+      <td><%= link_to "更新", admin_order_path, method: :patch, class:"btn btn-success" %></td>
+    </tbody>
+    <% end %>
+  </table>
+  <div>
+    <p>商品合計　　　<%= @subtotal.floor.to_s(:delimited) %>円</p>
+    <p>送料　　　　　<%= @order.shipping_cost %>円</p>
+    <p>請求金額合計　<%= @order.total_payment.floor.to_s(:delimited) %></p>
+  </div>
+</div>
