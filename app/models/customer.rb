@@ -6,9 +6,9 @@ class Customer < ApplicationRecord
 
   enum is_deleted: {'退会':true, '有効':false}
 
-  # def active_for_authentication?
-  #   super && self.is_deleted == false
-  # end
+  def active_for_authentication?
+    super && self.is_deleted == '有効'
+  end
 
   has_many :cart_items, dependent: :destroy
   has_many :orders, dependent: :destroy

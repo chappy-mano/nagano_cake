@@ -8,8 +8,13 @@ class Public::CustomersController < ApplicationController
   end
 
   def withdraw
-    current_customer.is_deleted = true
-    sign_out_and_redirect(current_customer)
+    @customer = current_customer
+    @customer.update(is_deleted: true) #退会フラグを立てる
+    reset_session #ログアウトさせる
+    flash[:notice] = "ありがとうございました。またのご利用を心よりお待ちしていおります。"
+    redirect_to root_path
+    # current_customer.is_deleted = true
+    # sign_out_and_redirect(current_customer)
   end
 
 end
