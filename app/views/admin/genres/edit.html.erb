@@ -5,6 +5,20 @@
 
  <div class = "edit">
   <%= form_with model: @genre, url: admin_genre_path, local:true do |f| %>
+  
+  <!--エラーメッセージ-->
+    <% if @genre.errors.any? %>
+      <div id="error_message">
+        <h2><%= pluralize(@genre.errors.count, "error") %>prohibited this product from being saved:</h2>
+        <ul>
+          <% @genre.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <!--エラーメッセージ-->
+  
   <span>ジャンル名</span>
   <span><%= f.text_field :name %></span>
   <span><%= f.submit "変更を保存", class:"btn btn-success" %></span>

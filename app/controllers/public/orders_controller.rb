@@ -66,6 +66,8 @@ class Public::OrdersController < ApplicationController
       # end
       redirect_to thanks_orders_path
     else
+      @customer = current_customer
+      @addresses = Address.where(customer_id: current_customer.id)
       render :new
     end
   end
@@ -79,12 +81,12 @@ class Public::OrdersController < ApplicationController
 
   def show
     @order =Order.find(params[:id])
-    
+
     @subtotal = 0
     @order.order_details.each do |order_detail|
       @subtotal += (order_detail.amount)*(order_detail.item.price*1.1)
     end
-    
+
   end
 
   private

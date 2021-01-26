@@ -2,7 +2,7 @@
 
 class Customers::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
+  before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
   # def new
@@ -38,7 +38,31 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  protected
+
+  #会員の編集時にパスワード入力を省く
+  def update_resource(resource, params)
+    resource.update_without_password(params)
+  end
+
+  def after_update_path_for(resource)
+    customers_path
+  end
+
+  #更新に必要
+  def configure_account_update_params
+    devise_parameter_sanitizer.permit(:account_update, keys:[
+      :last_name,
+      :first_name,
+      :last_name_kana,
+      :first_name_kana,
+      :postal_code,
+      :address,
+      :telephone_number,
+      :email
+      ])
+  end
+
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_up_params

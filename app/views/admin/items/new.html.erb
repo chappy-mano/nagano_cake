@@ -4,6 +4,20 @@
 
   <div>
     <%= form_with(model: @item, url: admin_items_path, local: true) do |f| %>
+
+    <!--エラーメッセージ-->
+    <% if @item.errors.any? %>
+      <div id="error_message">
+        <h2><%= pluralize(@item.errors.count, "error") %>prohibited this product from being saved:</h2>
+        <ul>
+          <% @item.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <!--エラーメッセージ-->
+
     <p>
       <span>商品画像</span>
       <span><%= f.attachment_field :image %></span>

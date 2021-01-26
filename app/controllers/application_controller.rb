@@ -1,14 +1,30 @@
 class ApplicationController < ActionController::Base
 
-  # 会員がログイン後は、マイページに移動を設定する
+  # def after_sign_in_path_for(resource)
+  #   case resource
+  #   when Admin
+  #     admin_orders_path(sort: 0)
+  #   when Customer
+  #     customers_path
+  #   end
+  # end
+
   def after_sign_in_path_for(resource)
-    case resource
-    when Admin
+    if resource.is_a?(Admin)
       admin_orders_path(sort: 0)
-    when Customer
+    elsif resource.is_a?(Customer)
       customers_path
     end
   end
+
+  def after_sign_out_path_for(resource)
+    if resource == :admin
+      new_admin_session_path
+    elsif resource == :customer
+      root_path
+    end
+  end
+
 
 
   before_action :configure_permitted_parameters, if: :devise_controller?

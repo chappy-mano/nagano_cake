@@ -5,6 +5,20 @@
 
   <div>
     <%= form_with(model: @customer, url: admin_customer_path(@customer.id), local: true) do |f| %>
+
+    <!--エラーメッセージ-->
+    <% if @customer.errors.any? %>
+      <div id="error_message">
+        <h2><%= pluralize(@customer.errors.count, "error") %>prohibited this product from being saved:</h2>
+        <ul>
+          <% @customer.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <!--エラーメッセージ-->
+
     <p>会員ID　　　　　<%= @customer.id %></p>
     <p>氏名　　　　　　<%= f.text_field :last_name %> <%= f.text_field :first_name %></p>
     <p>フリガナ　　　　<%= f.text_field :last_name_kana %> <%= f.text_field :first_name_kana %></p>
@@ -19,5 +33,5 @@
     </div>
     <% end %>
   </div>
-  
+
 </div>

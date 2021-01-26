@@ -12,10 +12,12 @@
       <p><%= (@item.price*1.1).floor.to_s(:delimited) %>円<span style="font-size:12px">(税込)</span></p>
 
       <div>
-        <%= form_with model: @cart_item, url: cart_items_path, local:true do |f| %>
-          <%= f.select :amount, [1,2,3,4,5,6,7,8,9,10], prompt:"個数選択してください" %>
-          <%= f.hidden_field :item_id, :value => @item.id %>
-          <%= f.submit "カートに入れる", class:"btn btn-success" %>
+        <% if customer_signed_in? %>
+          <%= form_with model: @cart_item, url: cart_items_path, local:true do |f| %>
+            数量<%= f.select :amount, [1,2,3,4,5,6,7,8,9,10] %>
+            <%= f.hidden_field :item_id, :value => @item.id %>
+            <%= f.submit "カートに入れる", class:"btn btn-success" %>
+          <% end %>
         <% end %>
       </div>
     </div>

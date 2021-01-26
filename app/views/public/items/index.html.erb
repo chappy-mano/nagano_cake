@@ -1,7 +1,7 @@
 <%= render "public/header" %>
 
 <div class="container">
-  <h3>商品一覧</h3>
+  <h3>商品一覧(<%= @items.ids.count %>件)</h3>
   <div class="wrapper grid">
     <% @items.each do |item| %>
     <div class="item">

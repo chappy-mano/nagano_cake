@@ -4,6 +4,20 @@
   <h3>配送先編集</h3>
   <div class="form">
     <%= form_with model:@address, url:address_path(@address.id), local:true do |f| %>
+
+    <!--エラーメッセージ-->
+    <% if @address.errors.any? %>
+      <div id="error_message">
+        <h2><%= pluralize(@address.errors.count, "error") %>prohibited this product from being saved:</h2>
+        <ul>
+          <% @address.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <!--エラーメッセージ-->
+
       <p>
         郵便番号（ハイフンなし）
         <%= f.text_field :postal_code %>
