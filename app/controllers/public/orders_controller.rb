@@ -52,6 +52,7 @@ class Public::OrdersController < ApplicationController
     # end
 
     if @order.save
+      current_customer.cart_items.destroy_all
       # current_customer.cart_items.each do |cart_item|
       #   @order_detail = OrderDetail.new
       #   @order_detail.order_id = @order.id
