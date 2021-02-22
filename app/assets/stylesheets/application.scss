@@ -13,3 +13,10 @@
  *= require_tree .
  *= require_self
  */
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+// admin/genres/index.html.erb
+.new-post {
+  margin-bottom: 40px;
+}

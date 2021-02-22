@@ -1,0 +1,60 @@
+<%= render "public/header" %>
+
+<div class="container">
+  <h3>配送先登録/一覧</h3>
+  <div class="form">
+    <%= form_with model:@address, url:addresses_path, local:true do |f| %>
+    
+    <!--エラーメッセージ-->
+    <% if @address.errors.any? %>
+      <div id="error_message">
+        <h2><%= pluralize(@address.errors.count, "error") %>prohibited this product from being saved:</h2>
+        <ul>
+          <% @address.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <!--エラーメッセージ-->
+  
+      <p>
+        郵便番号（ハイフンなし）
+        <%= f.text_field :postal_code %>
+        </p>
+      <p>
+        住所
+        <%= f.text_field :address %>
+        </p>
+      <p>
+        宛名
+        <%= f.text_field :name %>
+        </p>
+
+      <%= f.submit "新規登録", class:"btn btn-success" %>
+    <% end %>
+  </div>
+
+  <table class="table">
+    <thread>
+      <tr>
+        <td>郵便番号</td>
+        <td>住所</td>
+        <td>宛名</td>
+        <td></td>
+      </tr>
+    </thread>
+    <% @addresses.each do |address| %>
+    <tbody>
+      <td><%= address.postal_code %></td>
+      <td><%= address.address %></td>
+      <td><%= address.name %></td>
+      <td>
+        <%= link_to "編集する", edit_address_path(address.id), class:"btn btn-success" %>
+        <%= link_to "削除する", destroy_address_path(address.id), method: :delete, class:"btn btn-danger" %>
+      </td>
+    </tbody>
+    <% end %>
+  </table>
+
+</div>

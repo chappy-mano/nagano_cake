@@ -1,0 +1,72 @@
+<%= render "public/header" %>
+
+<div class="container">
+  <h3>注文詳細</h3>
+
+  <div>
+    <h4>注文情報</h4>
+    <table border="1" width="300">
+      <tr>
+        <td>注文日</td>
+        <td><%= @order.updated_at.strftime("%Y-%m-%d") %></td>
+      </tr>
+      <tr>
+        <td>配送先</td>
+        <td>
+          <%= @order.postal_code %></br>
+          <%= @order.address %></br>
+          <%= @order.name %>
+        </td>
+      </tr>
+      <tr>
+        <td>支払方法</td>
+        <td><%= @order.payment_method %></td>
+      </tr>
+      <tr>
+        <td>ステータス</td>
+        <td><%= @order.status %></td>
+      </tr>
+    </table>
+  </div>
+
+  <div>
+    <h4>請求情報</h4>
+    <table border="1" width="200">
+      <tr>
+        <td>商品合計</td>
+        <td><%= @subtotal.floor.to_s(:delimited) %></td>
+      </tr>
+      <tr>
+        <td>配送料</td>
+        <td><%= @order.shipping_cost %></td>
+      </tr>
+      <tr>
+        <td>ご請求額</td>
+        <td><%= @order.total_payment.floor.to_s(:delimited) %></td>
+      </tr>
+    </table>
+  </div>
+
+  <div>
+    <h4>注文内容</h4>
+    <table class="table">
+      <thread>
+        <tr>
+          <td>商品名</td>
+          <td>単価（税込）</td>
+          <td>個数</td>
+          <td>小計</td>
+        </tr>
+      </thread>
+      <% @order.order_details.each do |order_detail| %>
+      <tbody>
+        <td><%= order_detail.item.name %></td>
+        <td><%= (order_detail.item.price*1.1).floor.to_s(:delimited) %></td>
+        <td><%= order_detail.amount %></td>
+        <td><%= ((order_detail.item.price*1.1)*(order_detail.amount)).floor.to_s(:delimited) %></td>
+      </tbody>
+      <% end %>
+    </table>
+  </div>
+
+</div>

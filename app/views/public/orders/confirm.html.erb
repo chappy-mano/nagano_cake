@@ -1,0 +1,66 @@
+<%= render "public/header" %>
+<div class="container">
+  <h3>注文情報確認</h3>
+
+  <table class="table">
+    <thread>
+      <tr>
+        <td>商品名</td>
+        <td>単価(税込)</td>
+        <td>数量</td>
+        <td>小計</td>
+      </tr>
+    </thread>
+    <% @cart_items.each do |cart_item| %>
+    <tbody>
+      <td><%= cart_item.item.name %></td>
+      <td><%= (cart_item.item.price*1.1).floor.to_s(:delimited) %></td>
+      <td><%= cart_item.amount %></td>
+      <td><%= ((cart_item.amount)*(cart_item.item.price*1.1).floor).to_s(:delimited) %></td>
+    </tbody>
+    <% end %>
+  </table>
+
+  <table border="1" width="200">
+    <tr>
+      <td>送料</td>
+      <td><%= @order.shipping_cost %></td>
+    </tr>
+    <tr>
+      <td>商品合計</td>
+      <td><%= @subtotal.floor.to_s(:delimited) %></td>
+    </tr>
+    <tr>
+      <td>請求金額</td>
+      <td><%= @order.total_payment.floor.to_s(:delimited) %></td>
+    </tr>
+  </table>
+
+  <h4>支払方法</h4>
+  <%= @order.payment_method %>
+  <h4>お届け先</h4>
+  <%= @order.postal_code %><%= @order.address %>
+  <%= @order.name %>
+
+
+  <%= form_with model:@order, url:orders_path, method: :post, local:true do |f| %>
+    <%= f.hidden_field :customer_id, :value => @order.customer_id %>
+    <%= f.hidden_field :postal_code, :value => @order.postal_code %>
+    <%= f.hidden_field :address, :value => @order.address %>
+    <%= f.hidden_field :name, :value => @order.name %>
+    <%= f.hidden_field :shipping_cost, :value => @order.shipping_cost %>
+    <%= f.hidden_field :total_payment, :value => @order.total_payment %>
+    <%= f.hidden_field :payment_method, :value => @order.payment_method %>
+    <%= f.hidden_field :status, :value => @order.status %>
+    <% @cart_items.each do |cart_item| %>
+      <%= f.fields_for :order_details do |b| %>
+        <%= b.hidden_field :order_id, :value => @order.id %>
+        <%= b.hidden_field :item_id, :value => cart_item.item_id %>
+        <%= b.hidden_field :amount, :value => cart_item.amount %>
+        <%= b.hidden_field :price, :value => cart_item.item.price %>
+        <%= b.hidden_field :making_status, :value => @order_detail.making_status %>
+      <% end %>
+    <% end %>
+    <%= f.submit "注文を確定する", class:"btn btn-primary" %>
+  <% end %>
+</div>
